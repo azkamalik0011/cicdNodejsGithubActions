@@ -28,7 +28,9 @@ jobs:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
 
       - name: SSH into Ubuntu instance and run Docker Compose
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@18.206.76.64 'cd /github/workspace && docker-compose up -d'
+          cd /home/ubuntu/
+          docker-compose up -d
