@@ -6,9 +6,9 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -18,6 +18,9 @@ jobs:
           docker build -t azkadevops/nodejs:1.1 .
           docker login --username azkadevops --password a01m132806
           docker push azkadevops/nodejs:1.1
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
           
       - name: Setup SSH
         env:
