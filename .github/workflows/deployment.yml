@@ -21,7 +21,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-          
+    
+    steps:      
       - name: Setup SSH
         env:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
