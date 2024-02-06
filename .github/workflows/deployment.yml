@@ -15,10 +15,10 @@ jobs:
         
       - name: Build & Deploy
         env:
-            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64 '
 
       # - name: Build Docker image
