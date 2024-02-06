@@ -10,16 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    #   - name: Checkout repository
-    #     uses: actions/checkout@v2
-        
-    #   - name: Build
-    #     env:
-    #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    #     run: |
-    #       echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-    #       ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Build Docker image
         run: |
