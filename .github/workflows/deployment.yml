@@ -16,6 +16,12 @@ jobs:
       - name: List files in workspace
         run: ls -R /github/workspace
 
+      - name: Build Docker image
+        run: |
+          docker build -t azkadevops/nodejs:1.1 .
+          docker login --username azkadevops --password a01m132806
+          docker push azkadevops/nodejs:1.1
+
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -23,4 +29,4 @@ jobs:
 
       - name: SSH into Ubuntu instance and run Docker Compose
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@35.175.113.160 'cd /github/workspace && docker-compose up -d'
+          ssh -o StrictHostKeyChecking=no ubuntu@18.206.76.64 'cd /github/workspace && docker-compose up -d'
