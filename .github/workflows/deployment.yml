@@ -29,5 +29,4 @@ jobs:
       - name: Run container
         run: | 
           docker login --username azkadevops --password a01m132806
-          docker compose pull 
           docker compose up -d
