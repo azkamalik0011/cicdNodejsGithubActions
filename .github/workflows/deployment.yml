@@ -28,5 +28,5 @@ jobs:
 
       - name: SSH into Ubuntu instance and run Docker Compose
         run: |
-          cd /home/ubuntu/
+          # cd /home/ubuntu/
           docker-compose up -d
