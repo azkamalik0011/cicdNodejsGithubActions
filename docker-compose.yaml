@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  nodejs:
+    image: nodejs:1.1
+    container_name: jenkins-nodejs
+    environment:
+      - PORT=4040
+      - MONGODB_URI="mongodb+srv://azkamalik0011:5X4ewU5DAGofKmQw@cluster0.7yhcjky.mongodb.net/new?retryWrites=true&w=majority"
+    ports:
+      - "980:4040"

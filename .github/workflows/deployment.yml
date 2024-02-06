@@ -1,0 +1,26 @@
+name: Deploy with Docker Compose
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: List files in workspace
+        run: ls -R /github/workspace
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH into Ubuntu instance and run Docker Compose
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@35.175.113.160 'cd /github/workspace && docker-compose up -d'
