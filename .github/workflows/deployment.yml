@@ -27,4 +27,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
 
       - name: Run container
-        run: "docker compose pull && docker compose up -d && exit"
+        run: | 
+          docker login --username azkadevops --password a01m132806
+          docker compose pull 
+          docker compose up -d
