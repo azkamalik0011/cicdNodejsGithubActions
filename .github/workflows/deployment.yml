@@ -13,12 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: List files in workspace
-        run: |
-          pwd
-          cd ~/.ssh
-          cat github-actions.pub >> ~/.ssh/authorized_keys
-
       - name: Build Docker image
         run: |
           docker build -t azkadevops/nodejs:1.1 .
