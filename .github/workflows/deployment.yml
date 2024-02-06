@@ -9,33 +9,32 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    # steps:
+    #   - name: Checkout repository
+    #     uses: actions/checkout@v2
         
-      - name: Build
+    #   - name: Build
+    #     env:
+    #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    #     run: |
+    #       echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+    #       ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
+
+      - name: Build Docker image
+        run: |
+          docker build -t azkadevops/nodejs:1.1 .
+          docker login --username azkadevops --password a01m132806
+          docker push azkadevops/nodejs:1.1
+
+      - name: Setup SSH
         env:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
 
-      # - name: Build Docker image
-      #   run: |
-      #     docker build -t azkadevops/nodejs:1.1 .
-      #     docker login --username azkadevops --password a01m132806
-      #     docker push azkadevops/nodejs:1.1
-
-      # - name: Setup SSH
-      #   # uses: webfactory/ssh-agent@v0.5.3
-      #   env:
-      #       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      #   run: |
-      #     echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-      #     ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
-
-      # - name: SSH into Ubuntu instance and run Docker Compose
-      #   run: |
-      #     cd /home/ubuntu/
-      #     docker-compose up -d
+      - name: SSH into Ubuntu instance and run Docker Compose
+        run: |
+          cd /home/ubuntu/
+          docker-compose up -d
