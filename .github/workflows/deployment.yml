@@ -29,11 +29,9 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
-          sudo apt update
-          cd /home/ubuntu
 
       - name: Run container
         run: | 
+          docker login --username azkadevops --password a01m132806
           cd /home/ubuntu
-          ls
           docker compose up -d
