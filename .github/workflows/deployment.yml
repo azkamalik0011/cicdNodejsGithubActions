@@ -36,6 +36,7 @@ jobs:
         run: | 
           git clone https://github.com/azkamalik0011/cicdNodejsGithubActions.git
           ls
+          cd cicdNodejsGithubActions
           # pwd
           # ls
           # cd /home/ubuntu
