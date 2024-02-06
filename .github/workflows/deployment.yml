@@ -27,4 +27,4 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
 
       - name: Run container
-        run: ssh ubuntu@18.206.76.64 "docker compose pull && docker compose up -d && exit"
+        run: ssh "docker compose pull && docker compose up -d && exit"
