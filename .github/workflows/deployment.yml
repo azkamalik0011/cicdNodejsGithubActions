@@ -6,13 +6,18 @@ on:
       - main
 
 jobs:
-  build:
+  pre-build:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
+        
+  build:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: Build Docker Image
         run: |
           docker build -t azkadevops/nodejs:1.1 .
@@ -29,9 +34,6 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
-          pwd
-          cd .
-          pwd
 
       - name: Run container
         run: | 
