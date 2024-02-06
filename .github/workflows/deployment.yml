@@ -13,12 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker Image
-        run: |
-          docker build -t azkadevops/nodejs:1.1 .
-          docker login --username azkadevops --password a01m132806
-          docker push azkadevops/nodejs:1.1
-
       - name: Setup SSH
         env:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -26,7 +20,13 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
 
-      - name: SSH into Ubuntu instance and run Docker Compose
+      - name: Build Docker Image
+        run: |
+          docker build -t azkadevops/nodejs:1.1 .
+          docker login --username azkadevops --password a01m132806
+          docker push azkadevops/nodejs:1.1
+
+      - name: Run container
         run: |
           # cd /home/ubuntu/
           docker-compose up -d
