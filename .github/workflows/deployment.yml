@@ -30,6 +30,8 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@18.206.76.64
           pwd
+          cd .
+          pwd
 
       - name: Run container
         run: | 
