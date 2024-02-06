@@ -21,7 +21,7 @@ jobs:
           docker login --username azkadevops --password a01m132806
           docker push azkadevops/nodejs:1.
   deploy:
-    needs: push
+    needs: build
     runs-on: ubuntu-latest
     
     steps:      
