@@ -32,7 +32,6 @@ jobs:
 
       - name: Run container
         run: | 
-          cd /home/runner/work/cicdNodejsGithubActions/cicdNodejsGithubActions
+          cd /home/ubuntu
           ls
-          docker login --username azkadevops --password a01m132806
           docker compose up -d
