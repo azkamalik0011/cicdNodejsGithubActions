@@ -14,7 +14,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: List files in workspace
-        run: pwd
+        run: |
+          pwd
+          cd ~/.ssh
+          cat github-actions.pub >> ~/.ssh/authorized_keys
 
       - name: Build Docker image
         run: |
