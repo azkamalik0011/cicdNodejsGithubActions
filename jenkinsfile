@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-        SSH_KEY = credentials('node-ssh') // Add your SSH key ID from Jenkins credentials
-        EC2_USER = 'ubuntu' // Change this to the username of your EC2 instance
-        EC2_HOST = 'ec2-3-228-21-145.compute-1.amazonaws.com' // Change this to the public IP or DNS of your EC2 instance
-        GIT_REPO = 'https://github.com/azkamalik0011/cicdNodejsGithubActions.git' // Change this to your Git repository URL
+        SSH_KEY = credentials('node-ssh')
+        EC2_USER = 'ubuntu'
+        EC2_HOST = 'ec2-3-228-21-145.compute-1.amazonaws.com'
+        GIT_REPO = 'https://github.com/azkamalik0011/cicdNodejsGithubActions.git'
+        REPO_FOLDER = 'cicdNodejsGithubActions'
     }
 
     stages {
@@ -13,17 +14,14 @@ pipeline {
             steps {
                 script {
                     sshagent(['node-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}'"
-                    }
-                }
-            }
-        }
+                        // Check if the repository folder already exists
+                        def folderExists = sshReturnStatus(script: "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '[ -d ${REPO_FOLDER} ] && echo true || echo false'", returnStatus: true).trim()
 
-        stage('Check and Remove Existing Folder') {
-            steps {
-                script {
-                    sshagent(['node-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'if [ -d cicdNodejsGithubActions ]; then rm -rf cicdNodejsGithubActions; fi'"
+                        if (folderExists == 'true') {
+                            echo "Repository folder already exists. Skipping cloning."
+                        } else {
+                            sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO} ${REPO_FOLDER}'"
+                        }
                     }
                 }
             }
@@ -33,7 +31,7 @@ pipeline {
             steps {
                 script {
                     sshagent(['node-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'cd cicdNodejsGithubActions && docker-compose down -v && docker-compose up -d'"
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'cd ${REPO_FOLDER} && docker-compose down -v && docker-compose up -d'"
                     }
                 }
             }
