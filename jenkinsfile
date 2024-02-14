@@ -15,9 +15,9 @@ pipeline {
                 script {
                     sshagent(['node-ssh']) {
                         // Check if the repository folder already exists
-                        def folderExists = sshReturnStatus(script: "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '[ -d ${REPO_FOLDER} ] && echo true || echo false'", returnStatus: true).trim()
+                        def folderExists = ssh(script: "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '[ -d ${REPO_FOLDER} ] && echo true || echo false'", returnStatus: true).trim()
 
-                        if (folderExists == 'true') {
+                        if (folderExists == 0) {
                             echo "Repository folder already exists. Skipping cloning."
                         } else {
                             sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO} ${REPO_FOLDER}'"
