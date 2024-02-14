@@ -19,11 +19,21 @@ pipeline {
             }
         }
 
+        stage('Check and Remove Existing Folder') {
+            steps {
+                script {
+                    sshagent(['node-ssh']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'if [ -d cicdNodejsGithubActions ]; then rm -rf cicdNodejsGithubActions; fi'"
+                    }
+                }
+            }
+        }
+
         stage('Run Docker Compose') {
             steps {
                 script {
                     sshagent(['node-ssh']) {
-                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'cd cicdNodejsGithubActions && docker compose down -v && docker compose up -d'"
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'cd cicdNodejsGithubActions && docker-compose down -v && docker-compose up -d'"
                     }
                 }
             }
