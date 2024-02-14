@@ -5,6 +5,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: jenkins-nodejs
     ports:
       - "3002:4040"
