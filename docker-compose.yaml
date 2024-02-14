@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nodejs:
-    image: azkadevops/nodejs:1.1
+    image: azkadevops/nodejs:latest
     container_name: jenkins-nodejs
     environment:
       - PORT = "4040"
