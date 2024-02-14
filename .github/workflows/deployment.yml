@@ -15,8 +15,10 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t azkadevops/nodejs:$COMMIT_ID .
+          commit_id=$(git rev-parse HEAD)
+          docker build -t azkadevops/nodejs:$commit_id .
       - name: push Docker Image
         run: |
           docker login --username azkadevops --password a01m132806
-          docker push azkadevops/nodejs:$COMMIT_ID
+          commit_id=$(git rev-parse HEAD)
+          docker push azkadevops/nodejs:$commit_id
