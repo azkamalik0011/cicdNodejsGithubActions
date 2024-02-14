@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    environment {
+        SSH_KEY = credentials('node-ssh') // Add your SSH key ID from Jenkins credentials
+        EC2_USER = 'ubuntu' // Change this to the username of your EC2 instance
+        EC2_HOST = 'ec2-3-228-21-145.compute-1.amazonaws.com' // Change this to the public IP or DNS of your EC2 instance
+        GIT_REPO = 'https://github.com/azkamalik0011/cicdNodejsGithubActions.git' // Change this to your Git repository URL
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    sshagent(['node-ssh']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'git clone ${GIT_REPO}'"
+                    }
+                }
+            }
+        }
+
+        stage('Run Docker Compose') {
+            steps {
+                script {
+                    sshagent(['node-ssh']) {
+                        sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'cd cicdNodejsGithubActions && docker compose up -d'"
+                    }
+                }
+            }
+        }
+    }
+}
