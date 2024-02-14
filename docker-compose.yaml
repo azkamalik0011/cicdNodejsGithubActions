@@ -2,10 +2,9 @@ version: '3'
 
 services:
   nodejs:
-    image: azkadevops/nodejs:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: jenkins-nodejs
-    environment:
-      - PORT = "4040"
-      - MONGODB_URI = "mongodb+srv://azkamalik0011:5X4ewU5DAGofKmQw@cluster0.7yhcjky.mongodb.net/new?retryWrites=true&w=majority"
     ports:
       - "3002:4040"
